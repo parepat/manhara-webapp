@@ -59,6 +59,23 @@ function attachNumberFormatter(id) {
   });
 }
 
+function validateBasicForm() {
+  const age = Number(document.getElementById('age').value || 0);
+  const budget = Number(parseNumber(document.getElementById('budget').value) || 0);
+
+  if (!age || age <= 0) {
+    alert('กรุณาระบุอายุ');
+    return false;
+  }
+
+  if (!budget || budget <= 0) {
+    alert('กรุณาระบุงบ/เบี้ยที่พร้อมจ่ายต่อปี');
+    return false;
+  }
+
+  return true;
+}
+
 function getFormData() {
   return {
     customer_name: document.getElementById('customer_name').value.trim(),
@@ -84,7 +101,10 @@ function renderResult(result) {
   document.getElementById('scoreW155').textContent = result.score_w155 ?? 0;
   document.getElementById('scoreH902').textContent = result.score_h902 ?? 0;
 
-  const alts = (result.alternatives || []).map(item => `${item.product_name} (${item.score} คะแนน)`).join(' | ');
+  const alts = (result.alternatives || [])
+    .map(item => `${item.product_name} (${item.score} คะแนน)`)
+    .join(' | ');
+
   document.getElementById('alternatives').textContent = alts || '-';
   document.getElementById('resultBox').style.display = 'block';
 }
@@ -128,6 +148,8 @@ async function saveFormRequest(formData) {
 }
 
 async function previewResult() {
+  if (!validateBasicForm()) return;
+
   try {
     setLoading(true);
     const result = await previewResultRequest(getFormData());
@@ -141,6 +163,8 @@ async function previewResult() {
 }
 
 async function saveForm() {
+  if (!validateBasicForm()) return;
+
   try {
     setLoading(true);
     const result = await saveFormRequest(getFormData());
