@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MANHARA Customer Analysis</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f8;
+      margin: 0;
+      padding: 24px;
+      color: #2d2a32;
+    }
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+    .card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+    }
+    h1 {
+      margin-top: 0;
+      color: #5f5686;
+    }
+    .subtitle {
+      color: #666;
+      margin-bottom: 20px;
+    }
+    .section-title {
+      margin-top: 28px;
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid #ece9f6;
+      color: #5f5686;
+      font-size: 20px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .full {
+      grid-column: 1 / -1;
+    }
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid #d8d6e2;
+      box-sizing: border-box;
+      font-size: 14px;
+      background: #fff;
+    }
+    .check-group {
+      display: grid;
+      gap: 8px;
+      padding: 10px 12px;
+      border: 1px solid #d8d6e2;
+      border-radius: 12px;
+      background: #fff;
+    }
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .check-item input {
+      width: auto;
+    }
+    .button-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .primary {
+      background: #5f5686;
+      color: #fff;
+    }
+    .secondary {
+      background: #ece9f6;
+      color: #4b436d;
+    }
+    .result {
+      margin-top: 24px;
+      display: none;
+    }
+    .result-box {
+      background: #f7f3ff;
+      border: 1px solid #ddd2f2;
+      border-radius: 16px;
+      padding: 18px;
+    }
+    .score-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .score-card {
+      background: #fff;
+      border: 1px solid #e2dbf2;
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .loading {
+      display: none;
+      margin-top: 14px;
+      color: #5f5686;
+      font-weight: 700;
+    }
+    .note {
+      margin-top: 12px;
+      color: #666;
+      font-size: 13px;
+    }
+    @media (max-width: 760px) {
+      .grid, .score-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>แบบฟอร์มวิเคราะห์ลูกค้า (MANHARA Model)</h1>
+      <div class="subtitle">
+        MANHARA = เครื่องมือช่วย Sales วิเคราะห์ลูกค้าให้ลึกและตรงจุด เพื่อให้เสนอสินค้าได้เหมาะสม และปิดการขายได้ง่ายขึ้น
+      </div>
+
+      <div class="section-title">ข้อมูลทั่วไป</div>
+      <div class="grid">
+        <div>
+          <label>ชื่อลูกค้า</label>
+          <input id="customer_name" type="text">
+        </div>
+        <div>
+          <label>เบอร์โทร</label>
+          <input id="phone" type="text">
+        </div>
+        <div>
+          <label>อายุ</label>
+          <input id="age" type="number" min="0">
+        </div>
+        <div>
+          <label>อาชีพ</label>
+          <input id="occupation" type="text">
+        </div>
+      </div>
+
+      <div class="section-title">M - Money (การเงิน)</div>
+      <div class="grid">
+        <div>
+          <label>รายได้ต่อเดือน (บาท)</label>
+          <input id="income" type="text" inputmode="numeric" placeholder="เช่น 100,000">
+        </div>
+        <div>
+          <label>งบ/เบี้ยที่พร้อมจ่ายต่อปี (บาท)</label>
+          <input id="budget" type="text" inputmode="numeric" placeholder="เช่น 50,000">
+        </div>
+      </div>
+
+      <div class="section-title">A - Authority (อำนาจตัดสินใจ)</div>
+      <div class="grid">
+        <div class="full">
+          <label>สถานะการตัดสินใจ</label>
+          <select id="authority"></select>
+        </div>
+      </div>
+
+      <div class="section-title">N - Need (ความต้องการ)</div>
+      <div class="grid">
+        <div class="full">
+          <label>เลือกความต้องการหลัก</label>
+          <div id="need_group" class="check-group"></div>
+        </div>
+      </div>
+
+      <div class="section-title">H - Horizon (ระยะเวลา/เป้าหมายอนาคต)</div>
+      <div class="grid">
+        <div class="full">
+          <label>ระยะเวลาที่ต้องการเห็นผล/ใช้เงิน</label>
+          <select id="horizon"></select>
+        </div>
+      </div>
+
+      <div class="section-title">A - Attitude (ทัศนคติ)</div>
+      <div class="grid">
+        <div class="full">
+          <label>สไตล์การเลือกแบบประกัน</label>
+          <select id="attitude"></select>
+        </div>
+      </div>
+
+      <div class="section-title">R - Risk (ความเสี่ยง/ความกังวล)</div>
+      <div class="grid">
+        <div class="full">
+          <label>เลือกความกังวลหลัก</label>
+          <div id="risk_group" class="check-group"></div>
+        </div>
+      </div>
+
+      <div class="section-title">A - Action (แผนการตัดสินใจ)</div>
+      <div class="grid">
+        <div class="full">
+          <label>แผนการตัดสินใจ</label>
+          <select id="action"></select>
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button class="secondary" id="previewBtn">ประเมินเบื้องต้น</button>
+        <button class="primary" id="saveBtn">บันทึกและสรุปผล</button>
+      </div>
+
+      <div class="loading" id="loadingText">กำลังประมวลผล...</div>
+      <div class="note">แก้ค่า API_URL ในไฟล์ app.js ให้เป็นลิงก์ Web App ของ Apps Script ก่อนใช้งาน</div>
+
+      <div class="result" id="resultBox">
+        <div class="result-box">
+          <h2 id="productName">ผลการแนะนำ</h2>
+          <p><strong>ระดับความมั่นใจ:</strong> <span id="confidence"></span></p>
+          <p><strong>เหตุผล:</strong> <span id="reason"></span></p>
+
+          <div class="score-grid">
+            <div class="score-card">
+              <strong>KKPGEN Wealth 10/3</strong>
+              <div id="scoreW103">0</div>
+            </div>
+            <div class="score-card">
+              <strong>KKPGEN Wealth Plus 15/5</strong>
+              <div id="scoreW155">0</div>
+            </div>
+            <div class="score-card">
+              <strong>KKPGEN Heritage Plus 90/2</strong>
+              <div id="scoreH902">0</div>
+            </div>
+          </div>
+
+          <div style="margin-top:14px;">
+            <strong>ทางเลือกอื่น:</strong>
+            <div id="alternatives"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
