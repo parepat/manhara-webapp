@@ -78,8 +78,8 @@ function validateBasicForm() {
 
 function getFormData() {
   return {
-    customer_name: document.getElementById('customer_name').value.trim(),
-    phone: document.getElementById('phone').value.trim(),
+    customer_name: '',
+    phone: '',
     age: document.getElementById('age').value,
     occupation: document.getElementById('occupation').value.trim(),
     income: parseNumber(document.getElementById('income').value),
@@ -122,8 +122,8 @@ async function loadDropdownData() {
 async function previewResultRequest(formData) {
   const params = new URLSearchParams({
     action: 'preview',
-    customer_name: formData.customer_name || '',
-    phone: formData.phone || '',
+    customer_name: '',
+    phone: '',
     age: formData.age || '',
     occupation: formData.occupation || '',
     income: formData.income || '',
@@ -139,14 +139,6 @@ async function previewResultRequest(formData) {
   return await fetchJson(`${API_URL}?${params.toString()}`);
 }
 
-async function saveFormRequest(formData) {
-  return await fetchJson(API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify(formData)
-  });
-}
-
 async function previewResult() {
   if (!validateBasicForm()) return;
 
@@ -155,22 +147,6 @@ async function previewResult() {
     const result = await previewResultRequest(getFormData());
     if (result.error) throw new Error(result.error);
     renderResult(result);
-  } catch (err) {
-    alert('เกิดข้อผิดพลาด: ' + err.message);
-  } finally {
-    setLoading(false);
-  }
-}
-
-async function saveForm() {
-  if (!validateBasicForm()) return;
-
-  try {
-    setLoading(true);
-    const result = await saveFormRequest(getFormData());
-    if (result.error) throw new Error(result.error);
-    renderResult(result);
-    alert('บันทึกข้อมูลเรียบร้อยแล้ว');
   } catch (err) {
     alert('เกิดข้อผิดพลาด: ' + err.message);
   } finally {
@@ -197,6 +173,5 @@ async function initForm() {
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('previewBtn').addEventListener('click', previewResult);
-  document.getElementById('saveBtn').addEventListener('click', saveForm);
   initForm();
 });
