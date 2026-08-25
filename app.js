@@ -1,177 +1,397 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbzCMY46Pg2NywlrIsikF7EcyGfmofgq0H3sDBLkvc6xyZ6OZM6Ti_jJ3Y8ex9lCiGRQ/exec";
+const API_URL =
+"https://script.google.com/macros/s/AKfycbzCMY46Pg2NywlrIsikF7EcyGfmofgq0H3sDBLkvc6xyZ6OZM6Ti_jJ3Y8ex9lCiGRQ/exec";
 
-function setLoading(isLoading) {
-  document.getElementById('loadingText').style.display = isLoading ? 'block' : 'none';
+
+
+// โหลด Dropdown
+
+async function loadData(){
+
+
+try{
+
+
+const res =
+await fetch(
+API_URL+
+"?action=getDropdownData"
+);
+
+
+
+const json =
+await res.json();
+
+
+const data =
+json.data;
+
+
+
+fillSelect(
+"authority",
+data.authority
+);
+
+
+fillSelect(
+"horizon",
+data.horizon
+);
+
+
+fillSelect(
+"attitude",
+data.attitude
+);
+
+
+fillSelect(
+"action",
+data.action
+);
+
+
+
+fillCheckbox(
+"need",
+data.need
+);
+
+
+fillCheckbox(
+"risk",
+data.risk
+);
+
+
+
 }
 
-function createOptions(selectId, items) {
-  const select = document.getElementById(selectId);
-  select.innerHTML = '<option value="">-- กรุณาเลือก --</option>';
-  (items || []).forEach(item => {
-    const opt = document.createElement('option');
-    opt.value = item;
-    opt.textContent = item;
-    select.appendChild(opt);
-  });
+catch(e){
+
+alert(
+"โหลดข้อมูล dropdown ไม่สำเร็จ : "
++e.message
+);
+
+
 }
 
-function createCheckboxGroup(containerId, items) {
-  const container = document.getElementById(containerId);
-  container.innerHTML = '';
-  (items || []).forEach(item => {
-    const div = document.createElement('label');
-    div.className = 'check-item';
-    div.innerHTML = `<input type="checkbox" value="${escapeHtml(item)}"> <span>${escapeHtml(item)}</span>`;
-    container.appendChild(div);
-  });
+
 }
 
-function escapeHtml(text) {
-  return String(text)
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#039;');
-}
 
-function getCheckedValues(containerId) {
-  return Array.from(document.querySelectorAll(`#${containerId} input[type="checkbox"]:checked`))
-    .map(el => el.value);
-}
 
-function parseNumber(value) {
-  return String(value || '').replace(/,/g, '').trim();
-}
 
-function attachNumberFormatter(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
 
-  el.addEventListener('input', function () {
-    const raw = this.value.replace(/[^\d]/g, '');
-    this.value = raw ? Number(raw).toLocaleString('en-US') : '';
-  });
+function fillSelect(id,list){
 
-  el.addEventListener('blur', function () {
-    const raw = this.value.replace(/[^\d]/g, '');
-    this.value = raw ? Number(raw).toLocaleString('en-US') : '';
-  });
-}
 
-function validateBasicForm() {
-  const age = Number(document.getElementById('age').value || 0);
-  const budget = Number(parseNumber(document.getElementById('budget').value) || 0);
+const el =
+document.getElementById(id);
 
-  if (!age || age <= 0) {
-    alert('กรุณาระบุอายุ');
-    return false;
-  }
 
-  if (!budget || budget <= 0) {
-    alert('กรุณาระบุงบ/เบี้ยที่พร้อมจ่ายต่อปี');
-    return false;
-  }
 
-  return true;
-}
+(list||[]).forEach(x=>{
 
-function getFormData() {
-  return {
-    customer_name: '',
-    phone: '',
-    age: document.getElementById('age').value,
-    occupation: document.getElementById('occupation').value.trim(),
-    income: parseNumber(document.getElementById('income').value),
-    budget: parseNumber(document.getElementById('budget').value),
-    authority: document.getElementById('authority').value,
-    need: getCheckedValues('need_group'),
-    horizon: document.getElementById('horizon').value,
-    attitude: document.getElementById('attitude').value,
-    risk: getCheckedValues('risk_group'),
-    action: document.getElementById('action').value
-  };
-}
 
-function renderResult(result) {
-  document.getElementById('productName').textContent = 'ผลิตภัณฑ์ที่แนะนำ: ' + (result.recommended_product || '-');
-  document.getElementById('confidence').textContent = result.confidence || '-';
-  document.getElementById('reason').textContent = result.reason || '-';
-  document.getElementById('scoreW103').textContent = result.score_w103 ?? 0;
-  document.getElementById('scoreW155').textContent = result.score_w155 ?? 0;
-  document.getElementById('scoreH902').textContent = result.score_h902 ?? 0;
+let op =
+document.createElement("option");
 
-  const alts = (result.alternatives || [])
-    .map(item => `${item.product_name} (${item.score} คะแนน)`)
-    .join(' | ');
 
-  document.getElementById('alternatives').textContent = alts || '-';
-  document.getElementById('resultBox').style.display = 'block';
-}
+op.value=x;
 
-async function fetchJson(url, options = {}) {
-  const response = await fetch(url, options);
-  if (!response.ok) throw new Error(`HTTP ${response.status}`);
-  return await response.json();
-}
+op.textContent=x;
 
-async function loadDropdownData() {
-  return await fetchJson(`${API_URL}?action=getDropdownData`);
-}
 
-async function previewResultRequest(formData) {
-  const params = new URLSearchParams({
-    action: 'preview',
-    customer_name: '',
-    phone: '',
-    age: formData.age || '',
-    occupation: formData.occupation || '',
-    income: formData.income || '',
-    budget: formData.budget || '',
-    authority: formData.authority || '',
-    need: (formData.need || []).join(','),
-    horizon: formData.horizon || '',
-    attitude: formData.attitude || '',
-    risk: (formData.risk || []).join(','),
-    plan_action: formData.action || ''
-  });
+el.appendChild(op);
 
-  return await fetchJson(`${API_URL}?${params.toString()}`);
-}
 
-async function previewResult() {
-  if (!validateBasicForm()) return;
-
-  try {
-    setLoading(true);
-    const result = await previewResultRequest(getFormData());
-    if (result.error) throw new Error(result.error);
-    renderResult(result);
-  } catch (err) {
-    alert('เกิดข้อผิดพลาด: ' + err.message);
-  } finally {
-    setLoading(false);
-  }
-}
-
-async function initForm() {
-  attachNumberFormatter('income');
-  attachNumberFormatter('budget');
-
-  try {
-    const data = await loadDropdownData();
-    createOptions('authority', data.authority || []);
-    createOptions('horizon', data.horizon || []);
-    createOptions('attitude', data.attitude || []);
-    createOptions('action', data.action || []);
-    createCheckboxGroup('need_group', data.need || []);
-    createCheckboxGroup('risk_group', data.risk || []);
-  } catch (err) {
-    alert('โหลดข้อมูล dropdown ไม่สำเร็จ: ' + err.message);
-  }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('previewBtn').addEventListener('click', previewResult);
-  initForm();
 });
+
+
+}
+
+
+
+
+
+
+
+function fillCheckbox(id,list){
+
+
+const box =
+document.getElementById(id);
+
+
+
+(list||[]).forEach(x=>{
+
+
+box.innerHTML +=
+
+`
+
+<div class="checkbox">
+
+<label>
+
+<input 
+type="checkbox"
+value="${x}">
+
+${x}
+
+</label>
+
+</div>
+
+`;
+
+
+
+});
+
+
+}
+
+
+
+
+
+function getChecked(id){
+
+
+return [
+
+...document.querySelectorAll(
+"#"+id+" input:checked"
+)
+
+]
+
+.map(x=>x.value)
+
+.join(",");
+
+
+}
+
+
+
+
+
+async function analyze(){
+
+
+const params =
+new URLSearchParams({
+
+
+action:"preview",
+
+
+age:
+document.getElementById("age").value,
+
+
+income:
+document.getElementById("income").value,
+
+
+budget:
+document.getElementById("budget").value,
+
+
+authority:
+document.getElementById("authority").value,
+
+
+need:
+getChecked("need"),
+
+
+horizon:
+document.getElementById("horizon").value,
+
+
+attitude:
+document.getElementById("attitude").value,
+
+
+risk:
+getChecked("risk"),
+
+
+plan_action:
+document.getElementById("action").value
+
+
+
+});
+
+
+
+
+const res =
+await fetch(
+API_URL+
+"?"
++
+params
+);
+
+
+
+const data =
+await res.json();
+
+
+
+showResult(data);
+
+
+}
+
+
+
+
+
+
+
+function showResult(data){
+
+
+
+document
+.getElementById("result")
+.style.display="block";
+
+
+
+document
+.getElementById("stars")
+.innerHTML =
+data.stars;
+
+
+
+document
+.getElementById("product")
+.innerHTML =
+data.recommended_product;
+
+
+
+document
+.getElementById("status")
+.innerHTML =
+data.suitability;
+
+
+
+document
+.getElementById("score")
+.innerHTML =
+data.score;
+
+
+
+
+document
+.getElementById("tags")
+.innerHTML =
+
+
+(data.customer_tags||[])
+
+.map(
+x=>
+
+`
+<span class="tag">
+#${x}
+</span>
+
+`
+
+)
+
+.join("");
+
+
+
+
+
+document
+.getElementById("summary")
+.innerHTML =
+
+
+(data.product_summary||[])
+
+.map(
+x=>
+
+`
+<li>${x}</li>
+
+`
+
+)
+
+.join("");
+
+
+
+
+
+
+document
+.getElementById("ranking")
+.innerHTML =
+
+
+(data.ranked_products||[])
+
+.map(
+
+x=>
+
+`
+
+<div class="rank ${x.stars==="⭐⭐⭐"?"best":""}">
+
+
+${x.stars}
+
+<b>
+${x.product_name}
+</b>
+
+
+<br>
+
+คะแนน:
+${x.score}
+
+
+</div>
+
+`
+
+)
+
+.join("");
+
+
+
+}
+
+
+
+
+
+loadData();
