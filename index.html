@@ -1,431 +1,305 @@
+<!DOCTYPE html>
 
-const API_URL =
-"https://script.google.com/macros/s/AKfycbw7Zyyc2RiYjgz_oP5kBSVmDMsvlCNMG-3OgdnLGcCP0UMJE2Fw1ClIXFOo4M2jeBVH/exec";
+<html lang="th">
 
+<head>
 
+<meta charset="UTF-8">
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-// ==========================
-// LOAD DROPDOWN
-// ==========================
 
+<title>
+MANHARA KKPGEN Insurance
+</title>
 
-async function loadData(){
 
+<link rel="stylesheet" href="style.css">
 
-const res =
-await fetch(
-API_URL+
-"?action=getDropdownData"
-);
 
+</head>
 
-const json =
-await res.json();
 
+<body>
 
-const data =
-json.data;
 
+<div class="container">
 
 
-createSelect(
-"authority",
-data.Authority || []
-);
+<div class="header">
 
-
-createSelect(
-"horizon",
-data.Horizon || []
-);
-
-
-createSelect(
-"attitude",
-data.Attitude || []
-);
-
-
-createSelect(
-"action",
-data.Action || []
-);
-
-
-
-createCheckbox(
-"need",
-data.Need || []
-);
-
-
-createCheckbox(
-"risk",
-data.Risk || []
-);
-
-
-}
-
-
-
-
-function createSelect(id,list){
-
-
-const el =
-document.getElementById(id);
-
-
-
-list.forEach(x=>{
-
-
-let op =
-document.createElement(
-"option"
-);
-
-
-op.value=x;
-
-op.textContent=x;
-
-
-el.appendChild(op);
-
-
-
-});
-
-
-}
-
-
-
-function createCheckbox(id,list){
-
-
-const box =
-document.getElementById(id);
-
-
-
-list.forEach(x=>{
-
-
-let label =
-document.createElement(
-"label"
-);
-
-
-
-label.innerHTML =
-
-`
-<input 
-type="checkbox"
-value="${x}">
-${x}
-`;
-
-
-
-box.appendChild(label);
-
-
-
-});
-
-
-}
-
-
-
-
-function getChecked(id){
-
-
-return [
-
-...document
-.querySelectorAll(
-"#"+id+
-" input:checked"
-)
-
-]
-
-.map(x=>x.value);
-
-
-
-}
-
-
-
-
-// ==========================
-// ANALYZE
-// ==========================
-
-
-async function analyze(){
-
-
-
-let params =
-new URLSearchParams({
-
-
-action:"preview",
-
-
-age:
-document.getElementById("age").value,
-
-
-income:
-document.getElementById("income").value,
-
-
-budget:
-document.getElementById("budget").value,
-
-
-authority:
-document.getElementById("authority").value,
-
-
-need:
-getChecked("need")
-.join(","),
-
-
-horizon:
-document.getElementById("horizon").value,
-
-
-attitude:
-document.getElementById("attitude").value,
-
-
-risk:
-getChecked("risk")
-.join(","),
-
-
-plan_action:
-document.getElementById("action").value
-
-
-
-});
-
-
-
-
-
-const res =
-await fetch(
-API_URL+
-"?"
-+params
-);
-
-
-
-const result =
-await res.json();
-
-
-
-showResult(result);
-
-
-
-}
-
-
-
-
-
-// ==========================
-// SHOW RESULT
-// ==========================
-
-
-function showResult(data){
-
-
-
-document
-.getElementById(
-"resultBox"
-)
-.style.display="block";
-
-
-
-
-document
-.getElementById(
-"stars"
-)
-.innerHTML =
-data.stars;
-
-
-
-document
-.getElementById(
-"productName"
-)
-.innerHTML =
-data.recommended_product;
-
-
-
-
-document
-.getElementById(
-"suitability"
-)
-.innerHTML =
-data.suitability;
-
-
-
-document
-.getElementById(
-"score"
-)
-.innerHTML =
-data.score;
-
-
-
-// TAG
-
-
-document
-.getElementById(
-"tags"
-)
-.innerHTML =
-
-
-(data.customer_tags||[])
-
-.map(
-x=>
-
-`
-<span class="tag">
-#${x}
-</span>
-
-`
-)
-
-.join("");
-
-
-
-
-
-// SUMMARY
-
-
-document
-.getElementById(
-"summary"
-)
-.innerHTML =
-
-
-(data.product_summary||[])
-
-.map(
-x=>
-
-`
-<li>
-${x}
-</li>
-
-`
-
-)
-
-.join("");
-
-
-
-
-
-// Ranking
-
-
-document
-.getElementById(
-"ranking"
-)
-.innerHTML =
-
-
-
-(data.ranked_products||[])
-
-.map(
-
-x=>
-
-
-`
-
-<div class="rank-card ${x.stars=="⭐⭐⭐"?"top":""}">
-
-
-<div>
-
-${x.stars}
-
-<strong>
-${x.suitability}
-</strong>
-
-</div>
-
-
-<h4>
-${x.product_name}
-</h4>
+<h1>
+แบบฟอร์มวิเคราะห์ลูกค้า
+(MANHARA Model)
+</h1>
 
 
 <p>
-คะแนน ${x.score}
+เครื่องมือช่วย Sales วิเคราะห์ลูกค้า
+เพื่อเสนอแผนประกันที่เหมาะสม
 </p>
 
 
 </div>
 
 
-`
 
-)
-
-.join("");
+<div class="card">
 
 
-
-}
+<h2>
+ข้อมูลลูกค้า
+</h2>
 
 
 
+<div class="grid">
 
-// START
 
-loadData();
+<div>
+
+<label>
+อายุ
+</label>
+
+<input 
+id="age"
+type="number"
+placeholder="เช่น 45">
+
+
+</div>
+
+
+
+<div>
+
+<label>
+รายได้ต่อเดือน
+</label>
+
+<input 
+id="income"
+type="number"
+placeholder="เช่น 100000">
+
+
+</div>
+
+
+</div>
+
+
+
+
+<label>
+งบเบี้ยประกันต่อปี
+</label>
+
+<input 
+id="budget"
+type="number"
+placeholder="เช่น 50000">
+
+
+
+
+
+<h2>
+A - Authority
+</h2>
+
+
+<select id="authority">
+
+<option value="">
+-- กรุณาเลือก --
+</option>
+
+</select>
+
+
+
+
+<h2>
+N - Need
+</h2>
+
+
+<div id="need">
+
+</div>
+
+
+
+
+
+<h2>
+H - Horizon
+</h2>
+
+
+<select id="horizon">
+
+<option value="">
+-- กรุณาเลือก --
+</option>
+
+</select>
+
+
+
+
+
+<h2>
+A - Attitude
+</h2>
+
+
+<select id="attitude">
+
+<option value="">
+-- กรุณาเลือก --
+</option>
+
+</select>
+
+
+
+
+
+
+<h2>
+R - Risk
+</h2>
+
+
+<div id="risk">
+
+</div>
+
+
+
+
+
+
+<h2>
+A - Action
+</h2>
+
+
+<select id="action">
+
+<option value="">
+-- กรุณาเลือก --
+</option>
+
+</select>
+
+
+
+
+
+
+<br>
+
+
+<button onclick="analyze()">
+
+ประเมินแผนที่เหมาะสม
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+<div 
+id="result"
+class="card result"
+>
+
+
+<h2>
+ผลการวิเคราะห์
+</h2>
+
+
+<div id="stars"
+class="stars">
+</div>
+
+
+
+<h2 id="product">
+
+</h2>
+
+
+<h3 id="status">
+
+</h3>
+
+
+
+<p>
+คะแนน:
+<span id="score"></span>
+</p>
+
+
+
+<h3>
+Tag ลูกค้า
+</h3>
+
+<div id="tags">
+
+</div>
+
+
+
+
+<h3>
+รายละเอียดแผน
+</h3>
+
+
+<ul id="summary">
+
+</ul>
+
+
+
+
+
+<h3>
+Ranking
+</h3>
+
+
+<div id="ranking">
+
+</div>
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+<script src="app.js"></script>
+
+
+</body>
+
+
+</html>
