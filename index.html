@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="th">
 
 <head>
@@ -8,16 +7,193 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
-<title>
-MANHARA KKPGEN Insurance
-</title>
+<title>MANHARA KKPGEN Insurance</title>
 
 
-<link rel="stylesheet" href="style.css">
+<style>
+
+body{
+
+font-family:
+"Sarabun",
+Arial,
+sans-serif;
+
+background:#f6f4fb;
+
+margin:0;
+
+padding:30px;
+
+color:#333;
+
+}
+
+
+.container{
+
+max-width:1200px;
+
+margin:auto;
+
+background:white;
+
+padding:30px;
+
+border-radius:20px;
+
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+
+}
+
+
+
+h1{
+
+color:#3f3578;
+
+}
+
+
+
+.section{
+
+margin-top:25px;
+
+}
+
+
+
+label{
+
+font-weight:bold;
+
+display:block;
+
+margin-top:15px;
+
+}
+
+
+input,select{
+
+width:100%;
+
+padding:12px;
+
+border-radius:10px;
+
+border:1px solid #ddd;
+
+font-size:16px;
+
+}
+
+
+
+button{
+
+margin-top:25px;
+
+padding:15px 30px;
+
+background:#635f92;
+
+color:white;
+
+border:none;
+
+border-radius:12px;
+
+font-size:18px;
+
+cursor:pointer;
+
+}
+
+
+
+button:hover{
+
+background:#4c4778;
+
+}
+
+
+
+.card{
+
+margin-top:20px;
+
+padding:20px;
+
+border-radius:15px;
+
+background:#faf8ff;
+
+border:1px solid #ddd;
+
+}
+
+
+
+.star{
+
+font-size:35px;
+
+color:#f5b800;
+
+}
+
+
+
+.tag{
+
+display:inline-block;
+
+background:#eee8ff;
+
+color:#51448c;
+
+padding:6px 12px;
+
+margin:5px;
+
+border-radius:20px;
+
+}
+
+
+
+.reason li{
+
+margin-bottom:8px;
+
+}
+
+
+
+.rank{
+
+padding:15px;
+
+background:white;
+
+border-radius:10px;
+
+margin-top:10px;
+
+border:1px solid #ddd;
+
+}
+
+
+
+</style>
 
 
 </head>
+
 
 
 <body>
@@ -26,8 +202,6 @@ MANHARA KKPGEN Insurance
 <div class="container">
 
 
-<div class="header">
-
 <h1>
 แบบฟอร์มวิเคราะห์ลูกค้า
 (MANHARA Model)
@@ -35,178 +209,81 @@ MANHARA KKPGEN Insurance
 
 
 <p>
-เครื่องมือช่วย Sales วิเคราะห์ลูกค้า
-เพื่อเสนอแผนประกันที่เหมาะสม
+เครื่องมือช่วย Sales วิเคราะห์ความต้องการลูกค้า
+เพื่อแนะนำผลิตภัณฑ์ที่เหมาะสม
 </p>
 
 
-</div>
 
+<div class="section">
 
-
-<div class="card">
-
-
-<h2>
-ข้อมูลลูกค้า
-</h2>
-
-
-
-<div class="grid">
-
-
-<div>
 
 <label>
 อายุ
 </label>
 
-<input 
-id="age"
+<input id="age"
 type="number"
 placeholder="เช่น 45">
 
 
-</div>
-
-
-
-<div>
 
 <label>
-รายได้ต่อเดือน
+งบเบี้ยต่อปี
 </label>
 
-<input 
-id="income"
-type="number"
-placeholder="เช่น 100000">
-
-
-</div>
-
-
-</div>
-
-
-
-
-<label>
-งบเบี้ยประกันต่อปี
-</label>
-
-<input 
-id="budget"
+<input id="budget"
 type="number"
 placeholder="เช่น 50000">
 
 
 
+<label>
+Authority
+</label>
+
+<select id="authority"></select>
 
 
-<h2>
-A - Authority
-</h2>
+<label>
+Need
+</label>
+
+<select id="need"></select>
 
 
-<select id="authority">
+<label>
+Horizon
+</label>
 
-<option value="">
--- กรุณาเลือก --
-</option>
-
-</select>
+<select id="horizon"></select>
 
 
+<label>
+Attitude
+</label>
+
+<select id="attitude"></select>
 
 
-<h2>
-N - Need
-</h2>
+<label>
+Risk
+</label>
+
+<select id="risk"></select>
 
 
-<div id="need">
+<label>
+Action
+</label>
 
-</div>
+<select id="action"></select>
 
-
-
-
-
-<h2>
-H - Horizon
-</h2>
-
-
-<select id="horizon">
-
-<option value="">
--- กรุณาเลือก --
-</option>
-
-</select>
-
-
-
-
-
-<h2>
-A - Attitude
-</h2>
-
-
-<select id="attitude">
-
-<option value="">
--- กรุณาเลือก --
-</option>
-
-</select>
-
-
-
-
-
-
-<h2>
-R - Risk
-</h2>
-
-
-<div id="risk">
-
-</div>
-
-
-
-
-
-
-<h2>
-A - Action
-</h2>
-
-
-<select id="action">
-
-<option value="">
--- กรุณาเลือก --
-</option>
-
-</select>
-
-
-
-
-
-
-<br>
 
 
 <button onclick="analyze()">
 
-ประเมินแผนที่เหมาะสม
+วิเคราะห์แผนที่เหมาะสม
 
 </button>
 
@@ -216,90 +293,450 @@ A - Action
 
 
 
+<div id="result"></div>
 
 
-<div 
-id="result"
-class="card result"
->
+</div>
+
+
+
+
+
+<script>
+
+
+const API_URL =
+
+"https://script.google.com/macros/s/AKfycbzCMY46Pg2NywlrIsikF7EcyGfmofgq0H3sDBLkvc6xyZ6OZM6Ti_jJ3Y8ex9lCiGRQ/exec";
+
+
+
+
+// ============================
+// LOAD DROPDOWN
+// ============================
+
+
+async function loadData(){
+
+
+const res = await fetch(
+
+API_URL+"?action=getDropdownData"
+
+);
+
+
+const json = await res.json();
+
+
+const data=json.data;
+
+
+
+createSelect(
+"authority",
+data.Authority
+);
+
+
+createSelect(
+"need",
+data.Need
+);
+
+
+createSelect(
+"horizon",
+data.Horizon
+);
+
+
+createSelect(
+"attitude",
+data.Attitude
+);
+
+
+createSelect(
+"risk",
+data.Risk
+);
+
+
+createSelect(
+"action",
+data.Action
+);
+
+
+
+}
+
+
+
+
+
+function createSelect(id,list){
+
+
+const el =
+document.getElementById(id);
+
+
+el.innerHTML =
+"<option value=''>-- กรุณาเลือก --</option>";
+
+
+
+list.forEach(x=>{
+
+
+let op=document.createElement("option");
+
+
+op.value=x;
+
+op.textContent=x;
+
+
+el.appendChild(op);
+
+
+
+});
+
+
+}
+
+
+
+
+
+
+// ============================
+// ANALYZE
+// ============================
+
+
+async function analyze(){
+
+
+
+let params = new URLSearchParams({
+
+
+action:"preview",
+
+
+age:
+document.getElementById("age").value,
+
+
+budget:
+document.getElementById("budget").value,
+
+
+authority:
+document.getElementById("authority").value,
+
+
+need:
+document.getElementById("need").value,
+
+
+horizon:
+document.getElementById("horizon").value,
+
+
+attitude:
+document.getElementById("attitude").value,
+
+
+risk:
+document.getElementById("risk").value,
+
+
+plan_action:
+document.getElementById("action").value
+
+
+});
+
+
+
+
+const res =
+await fetch(
+API_URL+"?"+params
+);
+
+
+
+const data =
+await res.json();
+
+
+
+showResult(data);
+
+
+
+}
+
+
+
+
+
+
+// ============================
+// SHOW RESULT
+// ============================
+
+
+function showResult(data){
+
+
+
+let html="";
+
+
+
+html += `
+
+<div class="card">
 
 
 <h2>
-ผลการวิเคราะห์
+${data.stars || ""}
+${data.recommended_product}
 </h2>
 
 
-<div id="stars"
-class="stars">
-</div>
-
-
-
-<h2 id="product">
-
-</h2>
-
-
-<h3 id="status">
-
+<h3>
+${data.suitability}
 </h3>
 
 
-
-<p>
+<h3>
 คะแนน:
-<span id="score"></span>
-</p>
-
-
-
-<h3>
-Tag ลูกค้า
+${data.score}
 </h3>
 
-<div id="tags">
 
 </div>
 
+`;
 
+
+
+
+
+html += `
+
+<div class="card">
 
 
 <h3>
-รายละเอียดแผน
+🏷 Customer Tag
 </h3>
 
 
-<ul id="summary">
+`;
+
+
+
+(data.customer_tags||[])
+
+.forEach(t=>{
+
+
+html +=
+
+`
+<span class="tag">
+${t}
+</span>
+`;
+
+
+
+});
+
+
+
+html += "</div>";
+
+
+
+
+
+
+
+html +=`
+
+<div class="card">
+
+
+<h3>
+เหตุผลที่แนะนำ
+</h3>
+
+
+<ul class="reason">
+
+`;
+
+
+
+(data.reason||[])
+
+.forEach(r=>{
+
+
+html +=
+
+`
+<li>
+${r}
+</li>
+`;
+
+
+
+});
+
+
+
+html +=`
 
 </ul>
 
+</div>
+
+`;
 
 
+
+
+
+
+
+html +=`
+
+<div class="card">
+
+
+<h3>
+รายละเอียดผลิตภัณฑ์
+</h3>
+
+<ul>
+
+`;
+
+
+
+(data.product_summary||[])
+
+.forEach(s=>{
+
+
+html +=
+
+`
+<li>
+${s}
+</li>
+`;
+
+
+
+});
+
+
+
+html +=`
+
+</ul>
+
+</div>
+
+`;
+
+
+
+
+
+
+
+html +=`
+
+<div class="card">
 
 
 <h3>
 Ranking
 </h3>
 
+`;
 
-<div id="ranking">
+
+
+(data.ranked_products||[])
+
+.forEach(p=>{
+
+
+html +=`
+
+<div class="rank">
+
+${p.stars}
+
+<b>
+${p.product_name}
+</b>
+
+<br>
+
+คะแนน:
+${p.score}
 
 </div>
 
+`;
 
+
+
+});
+
+
+
+html +=`
 
 </div>
 
+`;
 
 
 
-</div>
+document.getElementById("result").innerHTML=html;
 
 
-<script src="app.js"></script>
+
+}
+
+
+
+
+loadData();
+
+
+
+</script>
 
 
 </body>
-
 
 </html>
