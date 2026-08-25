@@ -13,63 +13,34 @@
 <style>
 
 body{
-
-font-family:
-"Sarabun",
-Arial,
-sans-serif;
-
-background:#f6f4fb;
-
-margin:0;
-
+font-family:Arial,"Sarabun",sans-serif;
+background:#f5f3fb;
 padding:30px;
-
-color:#333;
-
 }
 
 
 .container{
 
-max-width:1200px;
-
+max-width:1100px;
 margin:auto;
-
 background:white;
-
 padding:30px;
-
 border-radius:20px;
 
-box-shadow:0 5px 20px rgba(0,0,0,.08);
-
 }
 
 
+h1,h2,h3{
 
-h1{
-
-color:#3f3578;
-
-}
-
-
-
-.section{
-
-margin-top:25px;
+color:#4b4387;
 
 }
-
 
 
 label{
 
 font-weight:bold;
-
 display:block;
-
 margin-top:15px;
 
 }
@@ -78,115 +49,65 @@ margin-top:15px;
 input,select{
 
 width:100%;
-
 padding:12px;
-
 border-radius:10px;
-
-border:1px solid #ddd;
-
+border:1px solid #ccc;
 font-size:16px;
 
 }
 
 
-
 button{
 
 margin-top:25px;
-
-padding:15px 30px;
-
-background:#635f92;
-
-color:white;
-
+padding:15px 25px;
 border:none;
-
 border-radius:12px;
-
+background:#635f92;
+color:white;
 font-size:18px;
-
 cursor:pointer;
 
 }
 
 
-
-button:hover{
-
-background:#4c4778;
-
-}
-
-
-
 .card{
 
 margin-top:20px;
-
+background:#faf8ff;
 padding:20px;
-
 border-radius:15px;
 
-background:#faf8ff;
-
-border:1px solid #ddd;
-
 }
-
 
 
 .star{
 
 font-size:35px;
 
-color:#f5b800;
-
 }
-
 
 
 .tag{
 
 display:inline-block;
-
+padding:8px 12px;
+margin:5px;
+border-radius:20px;
 background:#eee8ff;
-
 color:#51448c;
 
-padding:6px 12px;
-
-margin:5px;
-
-border-radius:20px;
-
 }
-
-
-
-.reason li{
-
-margin-bottom:8px;
-
-}
-
 
 
 .rank{
 
-padding:15px;
-
 background:white;
-
+padding:15px;
+margin-top:10px;
 border-radius:10px;
 
-margin-top:10px;
-
-border:1px solid #ddd;
-
 }
-
 
 
 </style>
@@ -203,24 +124,17 @@ border:1px solid #ddd;
 
 
 <h1>
-แบบฟอร์มวิเคราะห์ลูกค้า
-(MANHARA Model)
+MANHARA Model
 </h1>
 
 
 <p>
-เครื่องมือช่วย Sales วิเคราะห์ความต้องการลูกค้า
-เพื่อแนะนำผลิตภัณฑ์ที่เหมาะสม
+เครื่องมือวิเคราะห์ลูกค้าเพื่อแนะนำผลิตภัณฑ์ที่เหมาะสม
 </p>
 
 
 
-<div class="section">
-
-
-<label>
-อายุ
-</label>
+<label>อายุ</label>
 
 <input id="age"
 type="number"
@@ -228,9 +142,7 @@ placeholder="เช่น 45">
 
 
 
-<label>
-งบเบี้ยต่อปี
-</label>
+<label>งบเบี้ยต่อปี</label>
 
 <input id="budget"
 type="number"
@@ -238,44 +150,32 @@ placeholder="เช่น 50000">
 
 
 
-<label>
-Authority
-</label>
+<label>Authority</label>
 
 <select id="authority"></select>
 
 
-<label>
-Need
-</label>
+<label>Need</label>
 
 <select id="need"></select>
 
 
-<label>
-Horizon
-</label>
+<label>Horizon</label>
 
 <select id="horizon"></select>
 
 
-<label>
-Attitude
-</label>
+<label>Attitude</label>
 
 <select id="attitude"></select>
 
 
-<label>
-Risk
-</label>
+<label>Risk</label>
 
 <select id="risk"></select>
 
 
-<label>
-Action
-</label>
+<label>Action</label>
 
 <select id="action"></select>
 
@@ -283,17 +183,14 @@ Action
 
 <button onclick="analyze()">
 
-วิเคราะห์แผนที่เหมาะสม
+ประเมินแผนที่เหมาะสม
 
 </button>
 
 
 
-</div>
-
-
-
 <div id="result"></div>
+
 
 
 </div>
@@ -312,63 +209,105 @@ const API_URL =
 
 
 
-// ============================
+// =======================
 // LOAD DROPDOWN
-// ============================
+// =======================
 
 
 async function loadData(){
 
 
-const res = await fetch(
+try{
+
+
+const response = await fetch(
 
 API_URL+"?action=getDropdownData"
 
 );
 
 
-const json = await res.json();
+
+const json = await response.json();
 
 
-const data=json.data;
+
+const data = json.data;
 
 
 
 createSelect(
+
 "authority",
-data.Authority
+
+data.Authority || []
+
 );
 
 
 createSelect(
+
 "need",
-data.Need
+
+data.Need || []
+
 );
 
 
 createSelect(
+
 "horizon",
-data.Horizon
+
+data.Horizon || []
+
 );
 
 
 createSelect(
+
 "attitude",
-data.Attitude
+
+data.Attitude || []
+
 );
 
 
 createSelect(
+
 "risk",
-data.Risk
+
+data.Risk || []
+
 );
 
 
 createSelect(
+
 "action",
-data.Action
+
+data.Action || []
+
 );
 
+
+
+}
+
+catch(error){
+
+
+alert(
+
+"โหลดข้อมูล dropdown ไม่สำเร็จ : "
+
++
+
+error.message
+
+);
+
+
+}
 
 
 }
@@ -384,27 +323,30 @@ const el =
 document.getElementById(id);
 
 
-el.innerHTML =
+
+el.innerHTML=
+
 "<option value=''>-- กรุณาเลือก --</option>";
 
 
 
-list.forEach(x=>{
+list.forEach(item=>{
 
 
-let op=document.createElement("option");
+let option =
+document.createElement("option");
 
 
-op.value=x;
+option.value=item;
 
-op.textContent=x;
+option.textContent=item;
 
 
-el.appendChild(op);
-
+el.appendChild(option);
 
 
 });
+
 
 
 }
@@ -414,9 +356,9 @@ el.appendChild(op);
 
 
 
-// ============================
+// =======================
 // ANALYZE
-// ============================
+// =======================
 
 
 async function analyze(){
@@ -430,35 +372,44 @@ action:"preview",
 
 
 age:
+
 document.getElementById("age").value,
 
 
 budget:
+
 document.getElementById("budget").value,
 
 
 authority:
+
 document.getElementById("authority").value,
 
 
 need:
+
 document.getElementById("need").value,
 
 
 horizon:
+
 document.getElementById("horizon").value,
 
 
 attitude:
+
 document.getElementById("attitude").value,
 
 
 risk:
+
 document.getElementById("risk").value,
 
 
 plan_action:
+
 document.getElementById("action").value
+
 
 
 });
@@ -466,15 +417,16 @@ document.getElementById("action").value
 
 
 
-const res =
-await fetch(
-API_URL+"?"+params
+
+const response = await fetch(
+
+API_URL+"?"+params.toString()
+
 );
 
 
 
-const data =
-await res.json();
+const data = await response.json();
 
 
 
@@ -489,13 +441,13 @@ showResult(data);
 
 
 
-// ============================
+
+// =======================
 // SHOW RESULT
-// ============================
+// =======================
 
 
 function showResult(data){
-
 
 
 let html="";
@@ -508,19 +460,25 @@ html += `
 
 
 <h2>
+
 ${data.stars || ""}
+
 ${data.recommended_product}
+
 </h2>
 
 
 <h3>
+
 ${data.suitability}
+
 </h3>
 
 
 <h3>
-คะแนน:
-${data.score}
+
+คะแนน ${data.score}
+
 </h3>
 
 
@@ -531,32 +489,31 @@ ${data.score}
 
 
 
-
 html += `
 
 <div class="card">
-
 
 <h3>
 🏷 Customer Tag
 </h3>
 
-
 `;
 
 
 
-(data.customer_tags||[])
+(data.customer_tags || [])
 
-.forEach(t=>{
+.forEach(tag=>{
 
 
 html +=
 
 `
+
 <span class="tag">
-${t}
+${tag}
 </span>
+
 `;
 
 
@@ -571,25 +528,21 @@ html += "</div>";
 
 
 
-
-
-html +=`
+html += `
 
 <div class="card">
-
 
 <h3>
 เหตุผลที่แนะนำ
 </h3>
 
-
-<ul class="reason">
+<ul>
 
 `;
 
 
 
-(data.reason||[])
+(data.reason || [])
 
 .forEach(r=>{
 
@@ -597,9 +550,9 @@ html +=`
 html +=
 
 `
-<li>
-${r}
-</li>
+
+<li>${r}</li>
+
 `;
 
 
@@ -621,11 +574,9 @@ html +=`
 
 
 
-
 html +=`
 
 <div class="card">
-
 
 <h3>
 รายละเอียดผลิตภัณฑ์
@@ -637,17 +588,17 @@ html +=`
 
 
 
-(data.product_summary||[])
+(data.product_summary || [])
 
-.forEach(s=>{
+.forEach(x=>{
 
 
 html +=
 
 `
-<li>
-${s}
-</li>
+
+<li>${x}</li>
+
 `;
 
 
@@ -668,12 +619,9 @@ html +=`
 
 
 
-
-
 html +=`
 
 <div class="card">
-
 
 <h3>
 Ranking
@@ -683,25 +631,24 @@ Ranking
 
 
 
-(data.ranked_products||[])
+(data.ranked_products || [])
 
 .forEach(p=>{
 
 
-html +=`
+html +=
+
+`
 
 <div class="rank">
 
 ${p.stars}
 
-<b>
-${p.product_name}
-</b>
+<b>${p.product_name}</b>
 
 <br>
 
-คะแนน:
-${p.score}
+คะแนน ${p.score}
 
 </div>
 
@@ -721,11 +668,15 @@ html +=`
 
 
 
+
+
 document.getElementById("result").innerHTML=html;
 
 
 
 }
+
+
 
 
 
