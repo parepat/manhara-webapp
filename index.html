@@ -232,7 +232,9 @@ const json = await response.json();
 
 
 
-const data = json.data;
+console.log("FULL API RESPONSE =", json);
+
+const data = json.data || {};
 
 
 
