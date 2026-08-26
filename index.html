@@ -1189,81 +1189,127 @@
 
   function renderRanking(products) {
 
-    const container =
-      document.getElementById(
-        "rankingGrid"
-      );
-
-
-    container.innerHTML = "";
-
-
-    products.forEach(
-      function (product) {
-
-        const card =
-          document.createElement("div");
-
-
-        card.className =
-          product.stars === "⭐⭐⭐"
-            ? "rank-card best"
-            : "rank-card";
-
-
-        const stars =
-          document.createElement("div");
-
-        stars.className =
-          "rank-stars";
-
-        stars.textContent =
-          product.stars || "";
-
-
-        const name =
-          document.createElement("div");
-
-        name.className =
-          "rank-name";
-
-        name.textContent =
-          product.product_name || "";
-
-
-        const score =
-          document.createElement("div");
-
-        score.className =
-          "rank-score";
-
-        score.textContent =
-          "คะแนน " +
-          (product.score || 0);
-
-
-        const status =
-          document.createElement("div");
-
-        status.textContent =
-          product.suitability || "";
-
-
-        card.appendChild(stars);
-
-        card.appendChild(name);
-
-        card.appendChild(score);
-
-        card.appendChild(status);
-
-
-        container.appendChild(card);
-
-      }
+  const container =
+    document.getElementById(
+      "rankingGrid"
     );
 
-  }
+  container.innerHTML = "";
+
+
+  products.forEach(
+    function (product) {
+
+      const card =
+        document.createElement("div");
+
+      card.className =
+        product.stars === "⭐⭐⭐"
+          ? "rank-card best"
+          : "rank-card";
+
+
+      // ดาว
+      const stars =
+        document.createElement("div");
+
+      stars.className =
+        "rank-stars";
+
+      stars.textContent =
+        product.stars || "";
+
+
+      // ชื่อผลิตภัณฑ์
+      const name =
+        document.createElement("div");
+
+      name.className =
+        "rank-name";
+
+      name.textContent =
+        product.product_name || "";
+
+
+      // คะแนน
+      const score =
+        document.createElement("div");
+
+      score.className =
+        "rank-score";
+
+      score.textContent =
+        "คะแนน " +
+        (product.score || 0);
+
+
+      // สถานะ
+      const status =
+        document.createElement("div");
+
+      status.className =
+        "rank-status";
+
+      status.textContent =
+        product.suitability || "";
+
+
+      // เส้นคั่น
+      const divider =
+        document.createElement("div");
+
+      divider.className =
+        "rank-divider";
+
+
+      // หัวข้อสรุป
+      const summaryTitle =
+        document.createElement("div");
+
+      summaryTitle.className =
+        "rank-summary-title";
+
+      summaryTitle.textContent =
+        "สรุปข้อมูลผลิตภัณฑ์";
+
+
+      // รายละเอียด
+      const summaryList =
+        document.createElement("ul");
+
+      summaryList.className =
+        "rank-summary";
+
+
+      (product.product_summary || [])
+        .slice(0, 4)
+        .forEach(function(item) {
+
+          const li =
+            document.createElement("li");
+
+          li.textContent =
+            item;
+
+          summaryList.appendChild(li);
+
+        });
+
+
+      card.appendChild(stars);
+      card.appendChild(name);
+      card.appendChild(score);
+      card.appendChild(status);
+      card.appendChild(divider);
+      card.appendChild(summaryTitle);
+      card.appendChild(summaryList);
+
+      container.appendChild(card);
+
+    }
+  );
+
+}
 
 
   // =====================================================
