@@ -204,7 +204,7 @@ placeholder="เช่น 50000">
 
 const API_URL =
 
-"https://script.google.com/macros/s/AKfycbzCMY46Pg2NywlrIsikF7EcyGfmofgq0H3sDBLkvc6xyZ6OZM6Ti_jJ3Y8ex9lCiGRQ/exec";
+"https://script.google.com/macros/s/AKfycbw7Zyyc2RiYjgz_oP5kBSVmDMsvlCNMG-3OgdnLGcCP0UMJE2Fw1ClIXFOo4M2jeBVH/exec";
 
 
 
@@ -216,26 +216,72 @@ const API_URL =
 
 async function loadData(){
 
+  try{
 
-try{
+    const response = await fetch(
+      API_URL + "?action=getDropdownData&t=" + Date.now(),
+      { cache: "no-store" }
+    );
 
+    if(!response.ok){
+      throw new Error("HTTP " + response.status);
+    }
 
-const response = await fetch(
+    const json = await response.json();
 
-API_URL+"?action=getDropdownData"
+    console.log("FULL API RESPONSE =", json);
 
-);
+    if(json.error){
+      throw new Error(json.error);
+    }
 
+    const data = json.data || {};
 
+    createSelect(
+      "authority",
+      data.Authority || []
+    );
 
-const json = await response.json();
+    createSelect(
+      "need",
+      data.Need || []
+    );
 
+    createSelect(
+      "horizon",
+      data.Horizon || []
+    );
 
+    createSelect(
+      "attitude",
+      data.Attitude || []
+    );
 
-console.log("FULL API RESPONSE =", json);
+    createSelect(
+      "risk",
+      data.Risk || []
+    );
 
-const data = json.data || {};
+    createSelect(
+      "action",
+      data.Action || []
+    );
 
+  }catch(error){
+
+    console.error(
+      "LOAD DROPDOWN ERROR =",
+      error
+    );
+
+    alert(
+      "โหลดข้อมูล dropdown ไม่สำเร็จ : "
+      + error.message
+    );
+
+  }
+
+}
 
 
 createSelect(
@@ -320,39 +366,30 @@ error.message
 
 function createSelect(id,list){
 
+  const el =
+    document.getElementById(id);
 
-const el =
-document.getElementById(id);
+  if(!el){
+    console.error("ไม่พบ element:", id);
+    return;
+  }
 
+  el.innerHTML =
+    "<option value=''>-- กรุณาเลือก --</option>";
 
+  (list || []).forEach(item=>{
 
-el.innerHTML=
+    const option =
+      document.createElement("option");
 
-"<option value=''>-- กรุณาเลือก --</option>";
+    option.value = item;
+    option.textContent = item;
 
+    el.appendChild(option);
 
-
-list.forEach(item=>{
-
-
-let option =
-document.createElement("option");
-
-
-option.value=item;
-
-option.textContent=item;
-
-
-el.appendChild(option);
-
-
-});
-
-
+  });
 
 }
-
 
 
 
