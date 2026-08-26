@@ -1,732 +1,1303 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
+  <title>MANHARA KKPGEN Insurance</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-<title>MANHARA KKPGEN Insurance</title>
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: "Sarabun", Tahoma, Arial, sans-serif;
+      background: #f5f3fb;
+      color: #292633;
+    }
 
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
 
-<style>
+    .main-card {
+      background: #ffffff;
+      border-radius: 26px;
+      padding: 34px;
+      box-shadow: 0 10px 35px rgba(70, 58, 120, 0.08);
+    }
 
-body{
-font-family:Arial,"Sarabun",sans-serif;
-background:#f5f3fb;
-padding:30px;
-}
+    h1 {
+      margin: 0 0 12px;
+      font-size: 38px;
+      color: #554a8e;
+    }
 
+    .subtitle {
+      margin-bottom: 32px;
+      font-size: 18px;
+      line-height: 1.7;
+      color: #55515f;
+    }
 
-.container{
+    .section-title {
+      margin-top: 34px;
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #ece8f7;
+      color: #5b518e;
+      font-size: 25px;
+      font-weight: 700;
+    }
 
-max-width:1100px;
-margin:auto;
-background:white;
-padding:30px;
-border-radius:20px;
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
 
-}
+    .field {
+      margin-bottom: 18px;
+    }
 
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 700;
+    }
 
-h1,h2,h3{
+    input,
+    select {
+      width: 100%;
+      min-height: 56px;
+      padding: 12px 16px;
+      border: 1px solid #d7d3e2;
+      border-radius: 14px;
+      background: #ffffff;
+      font-size: 17px;
+      outline: none;
+    }
 
-color:#4b4387;
+    input:focus,
+    select:focus {
+      border-color: #62588f;
+      box-shadow: 0 0 0 3px rgba(98, 88, 143, 0.10);
+    }
 
-}
+    .checkbox-box {
+      padding: 18px;
+      border: 1px solid #d7d3e2;
+      border-radius: 14px;
+      background: #ffffff;
+    }
 
+    .checkbox-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 10px 0;
+      cursor: pointer;
+      font-weight: 500;
+    }
 
-label{
+    .checkbox-item input {
+      width: 18px;
+      height: 18px;
+      min-height: auto;
+      margin-top: 2px;
+      flex: 0 0 auto;
+    }
 
-font-weight:bold;
-display:block;
-margin-top:15px;
+    .button-row {
+      margin-top: 32px;
+    }
 
-}
+    .primary-btn {
+      min-width: 260px;
+      padding: 15px 28px;
+      border: 0;
+      border-radius: 15px;
+      background: #62588f;
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+    }
 
+    .primary-btn:hover {
+      opacity: 0.92;
+    }
 
-input,select{
+    .primary-btn:disabled {
+      cursor: wait;
+      opacity: 0.6;
+    }
 
-width:100%;
-padding:12px;
-border-radius:10px;
-border:1px solid #ccc;
-font-size:16px;
+    .loading {
+      display: none;
+      margin-top: 16px;
+      color: #62588f;
+      font-weight: 700;
+    }
 
-}
+    .error-box {
+      display: none;
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 12px;
+      background: #fff3f3;
+      color: #a12b2b;
+    }
 
+    .result-wrapper {
+      display: none;
+      margin-top: 32px;
+    }
 
-button{
+    .winner-card {
+      padding: 28px;
+      border: 2px solid #d8b74a;
+      border-radius: 20px;
+      background: #fffdf4;
+    }
 
-margin-top:25px;
-padding:15px 25px;
-border:none;
-border-radius:12px;
-background:#635f92;
-color:white;
-font-size:18px;
-cursor:pointer;
+    .winner-label {
+      margin-bottom: 6px;
+      color: #655c30;
+      font-size: 18px;
+      font-weight: 700;
+    }
 
-}
+    .stars {
+      margin: 5px 0;
+      font-size: 34px;
+      letter-spacing: 3px;
+    }
 
+    .product-name {
+      margin: 8px 0;
+      color: #463c76;
+      font-size: 28px;
+      font-weight: 800;
+    }
 
-.card{
+    .score {
+      margin-top: 8px;
+      font-size: 18px;
+      font-weight: 700;
+    }
 
-margin-top:20px;
-background:#faf8ff;
-padding:20px;
-border-radius:15px;
+    .result-card {
+      margin-top: 18px;
+      padding: 22px;
+      border: 1px solid #e1ddeb;
+      border-radius: 18px;
+      background: #faf9fd;
+    }
 
-}
+    .result-card h3 {
+      margin-top: 0;
+      margin-bottom: 14px;
+      color: #554a8e;
+    }
 
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
 
-.star{
+    .tag {
+      padding: 8px 12px;
+      border-radius: 18px;
+      background: #ece8f7;
+      color: #51477c;
+      font-weight: 700;
+      font-size: 14px;
+    }
 
-font-size:35px;
+    .reason-list,
+    .summary-list {
+      margin-bottom: 0;
+      padding-left: 23px;
+      line-height: 1.8;
+    }
 
-}
+    .ranking-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
 
+    .rank-card {
+      padding: 18px;
+      border: 1px solid #ddd8e9;
+      border-radius: 15px;
+      background: #ffffff;
+    }
 
-.tag{
+    .rank-card.best {
+      border: 2px solid #d8b74a;
+      background: #fffdf4;
+    }
 
-display:inline-block;
-padding:8px 12px;
-margin:5px;
-border-radius:20px;
-background:#eee8ff;
-color:#51448c;
+    .rank-stars {
+      margin-bottom: 8px;
+      font-size: 22px;
+    }
 
-}
+    .rank-name {
+      min-height: 46px;
+      color: #48406d;
+      font-weight: 800;
+    }
 
+    .rank-score {
+      margin-top: 8px;
+      color: #55515f;
+      font-weight: 700;
+    }
 
-.rank{
+    .internal-note {
+      margin-top: 26px;
+      color: #77717f;
+      font-size: 12px;
+    }
 
-background:white;
-padding:15px;
-margin-top:10px;
-border-radius:10px;
+    @media (max-width: 800px) {
+      body {
+        padding: 12px;
+      }
 
-}
+      .main-card {
+        padding: 20px;
+      }
 
+      h1 {
+        font-size: 29px;
+      }
 
-</style>
+      .grid-2,
+      .ranking-grid {
+        grid-template-columns: 1fr;
+      }
 
-
+      .primary-btn {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
-
-
 
 <body>
 
-
 <div class="container">
+  <div class="main-card">
+
+    <h1>แบบฟอร์มวิเคราะห์ลูกค้า (MANHARA Model)</h1>
+
+    <div class="subtitle">
+      MANHARA = เครื่องมือช่วย Sales วิเคราะห์ลูกค้าให้ลึกและตรงจุด
+      เพื่อให้เสนอผลิตภัณฑ์ได้เหมาะสมกับความต้องการ เป้าหมาย
+      อายุ และงบประมาณของลูกค้า
+    </div>
 
 
-<h1>
-MANHARA Model
-</h1>
+    <!-- GENERAL -->
+
+    <div class="section-title">ข้อมูลทั่วไป</div>
+
+    <div class="grid-2">
+
+      <div class="field">
+        <label for="age">อายุ</label>
+        <input
+          id="age"
+          type="number"
+          min="1"
+          max="100"
+          placeholder="เช่น 45"
+        >
+      </div>
+
+      <div class="field">
+        <label for="income">รายได้ต่อเดือน (บาท)</label>
+        <input
+          id="income"
+          type="text"
+          inputmode="numeric"
+          placeholder="เช่น 100,000"
+        >
+      </div>
+
+    </div>
 
 
-<p>
-เครื่องมือวิเคราะห์ลูกค้าเพื่อแนะนำผลิตภัณฑ์ที่เหมาะสม
-</p>
+    <!-- MONEY -->
+
+    <div class="section-title">M - Money (การเงิน)</div>
+
+    <div class="field">
+      <label for="budget">งบ/เบี้ยที่พร้อมจ่ายต่อปี (บาท)</label>
+
+      <input
+        id="budget"
+        type="text"
+        inputmode="numeric"
+        placeholder="เช่น 50,000"
+      >
+    </div>
 
 
+    <!-- AUTHORITY -->
 
-<label>อายุ</label>
+    <div class="section-title">A - Authority (อำนาจตัดสินใจ)</div>
 
-<input id="age"
-type="number"
-placeholder="เช่น 45">
-
-
-
-<label>งบเบี้ยต่อปี</label>
-
-<input id="budget"
-type="number"
-placeholder="เช่น 50000">
+    <div class="field">
+      <label for="authority">สถานะการตัดสินใจ</label>
+      <select id="authority">
+        <option value="">-- กรุณาเลือก --</option>
+      </select>
+    </div>
 
 
+    <!-- NEED -->
 
-<label>Authority</label>
+    <div class="section-title">N - Need (ความต้องการ)</div>
 
-<select id="authority"></select>
+    <div class="field">
+      <label>เลือกความต้องการหลัก (เลือกได้มากกว่า 1 ข้อ)</label>
 
-
-<label>Need</label>
-
-<select id="need"></select>
-
-
-<label>Horizon</label>
-
-<select id="horizon"></select>
+      <div
+        id="needGroup"
+        class="checkbox-box"
+      ></div>
+    </div>
 
 
-<label>Attitude</label>
+    <!-- HORIZON -->
 
-<select id="attitude"></select>
+    <div class="section-title">H - Horizon (ระยะเวลา / เป้าหมายอนาคต)</div>
 
+    <div class="field">
+      <label for="horizon">ระยะเวลาที่ต้องการเห็นผล / ใช้เงิน</label>
 
-<label>Risk</label>
-
-<select id="risk"></select>
-
-
-<label>Action</label>
-
-<select id="action"></select>
+      <select id="horizon">
+        <option value="">-- กรุณาเลือก --</option>
+      </select>
+    </div>
 
 
+    <!-- ATTITUDE -->
 
-<button onclick="analyze()">
+    <div class="section-title">A - Attitude (ทัศนคติ)</div>
 
-ประเมินแผนที่เหมาะสม
+    <div class="field">
+      <label for="attitude">สไตล์การเลือกแบบประกัน</label>
 
-</button>
+      <select id="attitude">
+        <option value="">-- กรุณาเลือก --</option>
+      </select>
+    </div>
 
 
+    <!-- RISK -->
 
-<div id="result"></div>
+    <div class="section-title">R - Risk (ความเสี่ยง / ความกังวล)</div>
+
+    <div class="field">
+      <label>เลือกความกังวลหลัก (เลือกได้มากกว่า 1 ข้อ)</label>
+
+      <div
+        id="riskGroup"
+        class="checkbox-box"
+      ></div>
+    </div>
 
 
+    <!-- ACTION -->
 
+    <div class="section-title">A - Action (แผนการตัดสินใจ)</div>
+
+    <div class="field">
+      <label for="action">แผนการตัดสินใจ</label>
+
+      <select id="action">
+        <option value="">-- กรุณาเลือก --</option>
+      </select>
+    </div>
+
+
+    <!-- BUTTON -->
+
+    <div class="button-row">
+
+      <button
+        id="analyzeBtn"
+        class="primary-btn"
+        type="button"
+      >
+        ประเมินแผนที่เหมาะสม
+      </button>
+
+      <div
+        id="loading"
+        class="loading"
+      >
+        กำลังประมวลผล...
+      </div>
+
+    </div>
+
+
+    <div
+      id="errorBox"
+      class="error-box"
+    ></div>
+
+
+    <!-- RESULT -->
+
+    <div
+      id="resultWrapper"
+      class="result-wrapper"
+    >
+
+      <div class="winner-card">
+
+        <div
+          id="suitability"
+          class="winner-label"
+        ></div>
+
+        <div
+          id="stars"
+          class="stars"
+        ></div>
+
+        <div
+          id="productName"
+          class="product-name"
+        ></div>
+
+        <div
+          id="score"
+          class="score"
+        ></div>
+
+      </div>
+
+
+      <div class="result-card">
+
+        <h3>🏷 Tag ลูกค้า / จุดที่เหมาะกับแผน</h3>
+
+        <div
+          id="tagContainer"
+          class="tags"
+        ></div>
+
+      </div>
+
+
+      <div class="result-card">
+
+        <h3>เหตุผลที่แนะนำ</h3>
+
+        <ul
+          id="reasonList"
+          class="reason-list"
+        ></ul>
+
+      </div>
+
+
+      <div class="result-card">
+
+        <h3>สรุปข้อมูลผลิตภัณฑ์</h3>
+
+        <ul
+          id="summaryList"
+          class="summary-list"
+        ></ul>
+
+      </div>
+
+
+      <div class="result-card">
+
+        <h3>ระดับความเหมาะสมของแต่ละแผน</h3>
+
+        <div
+          id="rankingGrid"
+          class="ranking-grid"
+        ></div>
+
+      </div>
+
+    </div>
+
+
+    <div class="internal-note">
+      เครื่องมือนี้ใช้เพื่อช่วยวิเคราะห์และประกอบการนำเสนอผลิตภัณฑ์
+      ควรพิจารณารายละเอียดและเงื่อนไขผลิตภัณฑ์ล่าสุดร่วมด้วย
+    </div>
+
+  </div>
 </div>
-
-
-
 
 
 <script>
+  /*
+   * IMPORTANT:
+   * ใช้ Web App URL ตัวล่าสุดที่ทดสอบแล้วได้
+   * {"status":"success","data":{...}}
+   */
+  const API_URL =
+    "https://script.google.com/macros/s/AKfycbw7Zyyc2RiYjgz_oP5kBSVmDMsvlCNMG-3OgdnLGcCP0UMJE2Fw1ClIXFOo4M2jeBVH/exec";
 
 
-const API_URL =
+  // =====================================================
+  // NUMBER FORMAT
+  // =====================================================
 
-"https://script.google.com/macros/s/AKfycbw7Zyyc2RiYjgz_oP5kBSVmDMsvlCNMG-3OgdnLGcCP0UMJE2Fw1ClIXFOo4M2jeBVH/exec";
+  function formatNumberInput(element) {
+
+    element.addEventListener("input", function () {
+
+      const raw =
+        this.value.replace(/[^\d]/g, "");
+
+      this.value =
+        raw
+          ? Number(raw).toLocaleString("en-US")
+          : "";
+
+    });
+
+  }
 
 
+  function parseNumber(value) {
+
+    return Number(
+      String(value || "")
+        .replace(/,/g, "")
+        .trim()
+    ) || 0;
+
+  }
 
 
-// =======================
-// LOAD DROPDOWN
-// =======================
+  // =====================================================
+  // UI HELPERS
+  // =====================================================
+
+  function setLoading(isLoading) {
+
+    const button =
+      document.getElementById("analyzeBtn");
+
+    const loading =
+      document.getElementById("loading");
+
+    button.disabled = isLoading;
+
+    loading.style.display =
+      isLoading ? "block" : "none";
+
+  }
 
 
-async function loadData(){
+  function showError(message) {
 
-  try{
+    const box =
+      document.getElementById("errorBox");
 
-    const response = await fetch(
-      API_URL + "?action=getDropdownData&t=" + Date.now(),
-      { cache: "no-store" }
-    );
+    box.textContent = message;
 
-    if(!response.ok){
-      throw new Error("HTTP " + response.status);
+    box.style.display = "block";
+
+  }
+
+
+  function clearError() {
+
+    const box =
+      document.getElementById("errorBox");
+
+    box.textContent = "";
+
+    box.style.display = "none";
+
+  }
+
+
+  // =====================================================
+  // DROPDOWN
+  // =====================================================
+
+  function createSelect(id, list) {
+
+    const element =
+      document.getElementById(id);
+
+    if (!element) {
+      return;
     }
 
-    const json = await response.json();
+    element.innerHTML =
+      '<option value="">-- กรุณาเลือก --</option>';
 
-    console.log("FULL API RESPONSE =", json);
+    (list || []).forEach(function (item) {
 
-    if(json.error){
-      throw new Error(json.error);
+      const option =
+        document.createElement("option");
+
+      option.value = item;
+
+      option.textContent = item;
+
+      element.appendChild(option);
+
+    });
+
+  }
+
+
+  // =====================================================
+  // CHECKBOX
+  // =====================================================
+
+  function createCheckboxGroup(containerId, list) {
+
+    const container =
+      document.getElementById(containerId);
+
+    if (!container) {
+      return;
     }
 
-    const data = json.data || {};
+    container.innerHTML = "";
 
-    createSelect(
-      "authority",
-      data.Authority || []
+    (list || []).forEach(function (item) {
+
+      const label =
+        document.createElement("label");
+
+      label.className =
+        "checkbox-item";
+
+
+      const input =
+        document.createElement("input");
+
+      input.type =
+        "checkbox";
+
+      input.value =
+        item;
+
+
+      const text =
+        document.createElement("span");
+
+      text.textContent =
+        item;
+
+
+      label.appendChild(input);
+
+      label.appendChild(text);
+
+      container.appendChild(label);
+
+    });
+
+  }
+
+
+  function getCheckedValues(containerId) {
+
+    return Array
+      .from(
+        document.querySelectorAll(
+          "#" + containerId +
+          ' input[type="checkbox"]:checked'
+        )
+      )
+      .map(function (input) {
+        return input.value;
+      });
+
+  }
+
+
+  // =====================================================
+  // LOAD DATA
+  // =====================================================
+
+  async function loadData() {
+
+    try {
+
+      clearError();
+
+      const response =
+        await fetch(
+          API_URL +
+          "?action=getDropdownData&t=" +
+          Date.now(),
+          {
+            cache: "no-store"
+          }
+        );
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          "HTTP " + response.status
+        );
+
+      }
+
+
+      const json =
+        await response.json();
+
+
+      console.log(
+        "FULL API RESPONSE =",
+        json
+      );
+
+
+      if (json.error) {
+
+        throw new Error(
+          json.error
+        );
+
+      }
+
+
+      const data =
+        json.data || {};
+
+
+      createSelect(
+        "authority",
+        data.Authority || []
+      );
+
+
+      createCheckboxGroup(
+        "needGroup",
+        data.Need || []
+      );
+
+
+      createSelect(
+        "horizon",
+        data.Horizon || []
+      );
+
+
+      createSelect(
+        "attitude",
+        data.Attitude || []
+      );
+
+
+      createCheckboxGroup(
+        "riskGroup",
+        data.Risk || []
+      );
+
+
+      createSelect(
+        "action",
+        data.Action || []
+      );
+
+    }
+    catch (error) {
+
+      console.error(
+        "LOAD DATA ERROR =",
+        error
+      );
+
+
+      showError(
+        "โหลดข้อมูลแบบฟอร์มไม่สำเร็จ: " +
+        error.message
+      );
+
+    }
+
+  }
+
+
+  // =====================================================
+  // VALIDATION
+  // =====================================================
+
+  function validateForm() {
+
+    const age =
+      parseNumber(
+        document.getElementById("age").value
+      );
+
+
+    const budget =
+      parseNumber(
+        document.getElementById("budget").value
+      );
+
+
+    const need =
+      getCheckedValues("needGroup");
+
+
+    if (age <= 0) {
+
+      showError(
+        "กรุณาระบุอายุลูกค้า"
+      );
+
+      return false;
+
+    }
+
+
+    if (budget <= 0) {
+
+      showError(
+        "กรุณาระบุงบ/เบี้ยที่พร้อมจ่ายต่อปี"
+      );
+
+      return false;
+
+    }
+
+
+    if (need.length === 0) {
+
+      showError(
+        "กรุณาเลือก Need อย่างน้อย 1 ข้อ"
+      );
+
+      return false;
+
+    }
+
+
+    return true;
+
+  }
+
+
+  // =====================================================
+  // ANALYZE
+  // =====================================================
+
+  async function analyze() {
+
+    clearError();
+
+
+    if (!validateForm()) {
+      return;
+    }
+
+
+    setLoading(true);
+
+
+    try {
+
+      const params =
+        new URLSearchParams();
+
+
+      params.set(
+        "action",
+        "preview"
+      );
+
+
+      params.set(
+        "age",
+        document.getElementById("age").value
+      );
+
+
+      params.set(
+        "income",
+        parseNumber(
+          document.getElementById("income").value
+        )
+      );
+
+
+      params.set(
+        "budget",
+        parseNumber(
+          document.getElementById("budget").value
+        )
+      );
+
+
+      params.set(
+        "authority",
+        document.getElementById("authority").value
+      );
+
+
+      params.set(
+        "need",
+        getCheckedValues("needGroup").join(",")
+      );
+
+
+      params.set(
+        "horizon",
+        document.getElementById("horizon").value
+      );
+
+
+      params.set(
+        "attitude",
+        document.getElementById("attitude").value
+      );
+
+
+      params.set(
+        "risk",
+        getCheckedValues("riskGroup").join(",")
+      );
+
+
+      params.set(
+        "plan_action",
+        document.getElementById("action").value
+      );
+
+
+      params.set(
+        "t",
+        Date.now()
+      );
+
+
+      const response =
+        await fetch(
+          API_URL +
+          "?" +
+          params.toString(),
+          {
+            cache: "no-store"
+          }
+        );
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          "HTTP " + response.status
+        );
+
+      }
+
+
+      const data =
+        await response.json();
+
+
+      console.log(
+        "ANALYZE RESPONSE =",
+        data
+      );
+
+
+      if (data.error) {
+
+        throw new Error(
+          data.error
+        );
+
+      }
+
+
+      renderResult(data);
+
+    }
+    catch (error) {
+
+      console.error(
+        "ANALYZE ERROR =",
+        error
+      );
+
+
+      showError(
+        "ประเมินผลไม่สำเร็จ: " +
+        error.message
+      );
+
+    }
+    finally {
+
+      setLoading(false);
+
+    }
+
+  }
+
+
+  // =====================================================
+  // RESULT
+  // =====================================================
+
+  function renderResult(data) {
+
+    const wrapper =
+      document.getElementById("resultWrapper");
+
+
+    document
+      .getElementById("stars")
+      .textContent =
+      data.stars || "";
+
+
+    document
+      .getElementById("suitability")
+      .textContent =
+      data.suitability || "";
+
+
+    document
+      .getElementById("productName")
+      .textContent =
+      data.recommended_product ||
+      "ยังไม่พบแผนที่เหมาะสม";
+
+
+    document
+      .getElementById("score")
+      .textContent =
+      typeof data.score !== "undefined"
+        ? "คะแนน " + data.score
+        : "";
+
+
+    renderTags(
+      data.customer_tags || []
     );
 
-    createSelect(
-      "need",
-      data.Need || []
+
+    renderList(
+      "reasonList",
+      data.reason || []
     );
 
-    createSelect(
-      "horizon",
-      data.Horizon || []
+
+    renderList(
+      "summaryList",
+      data.product_summary || []
     );
 
-    createSelect(
-      "attitude",
-      data.Attitude || []
+
+    renderRanking(
+      data.ranked_products || []
     );
 
-    createSelect(
-      "risk",
-      data.Risk || []
-    );
 
-    createSelect(
-      "action",
-      data.Action || []
-    );
+    wrapper.style.display =
+      "block";
 
-  } catch(error){
 
-    console.error(
-      "LOAD DROPDOWN ERROR =",
-      error
-    );
+    wrapper.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
 
-    alert(
-      "โหลดข้อมูล dropdown ไม่สำเร็จ : " +
-      error.message
+  }
+
+
+  function renderTags(tags) {
+
+    const container =
+      document.getElementById(
+        "tagContainer"
+      );
+
+
+    container.innerHTML = "";
+
+
+    tags.forEach(function (tag) {
+
+      const element =
+        document.createElement("span");
+
+      element.className =
+        "tag";
+
+      element.textContent =
+        "#" + tag;
+
+      container.appendChild(element);
+
+    });
+
+  }
+
+
+  function renderList(id, items) {
+
+    const list =
+      document.getElementById(id);
+
+
+    list.innerHTML = "";
+
+
+    items.forEach(function (item) {
+
+      const li =
+        document.createElement("li");
+
+      li.textContent =
+        item;
+
+      list.appendChild(li);
+
+    });
+
+  }
+
+
+  function renderRanking(products) {
+
+    const container =
+      document.getElementById(
+        "rankingGrid"
+      );
+
+
+    container.innerHTML = "";
+
+
+    products.forEach(
+      function (product) {
+
+        const card =
+          document.createElement("div");
+
+
+        card.className =
+          product.stars === "⭐⭐⭐"
+            ? "rank-card best"
+            : "rank-card";
+
+
+        const stars =
+          document.createElement("div");
+
+        stars.className =
+          "rank-stars";
+
+        stars.textContent =
+          product.stars || "";
+
+
+        const name =
+          document.createElement("div");
+
+        name.className =
+          "rank-name";
+
+        name.textContent =
+          product.product_name || "";
+
+
+        const score =
+          document.createElement("div");
+
+        score.className =
+          "rank-score";
+
+        score.textContent =
+          "คะแนน " +
+          (product.score || 0);
+
+
+        const status =
+          document.createElement("div");
+
+        status.textContent =
+          product.suitability || "";
+
+
+        card.appendChild(stars);
+
+        card.appendChild(name);
+
+        card.appendChild(score);
+
+        card.appendChild(status);
+
+
+        container.appendChild(card);
+
+      }
     );
 
   }
 
-}
 
+  // =====================================================
+  // START
+  // =====================================================
 
-createSelect(
+  document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-"authority",
+      formatNumberInput(
+        document.getElementById("income")
+      );
 
-data.Authority || []
 
-);
+      formatNumberInput(
+        document.getElementById("budget")
+      );
 
 
-createSelect(
+      document
+        .getElementById("analyzeBtn")
+        .addEventListener(
+          "click",
+          analyze
+        );
 
-"need",
 
-data.Need || []
+      loadData();
 
-);
-
-
-createSelect(
-
-"horizon",
-
-data.Horizon || []
-
-);
-
-
-createSelect(
-
-"attitude",
-
-data.Attitude || []
-
-);
-
-
-createSelect(
-
-"risk",
-
-data.Risk || []
-
-);
-
-
-createSelect(
-
-"action",
-
-data.Action || []
-
-);
-
-
-
-}
-
-catch(error){
-
-
-alert(
-
-"โหลดข้อมูล dropdown ไม่สำเร็จ : "
-
-+
-
-error.message
-
-);
-
-
-}
-
-
-}
-
-
-
-
-
-function createSelect(id,list){
-
-  const el =
-    document.getElementById(id);
-
-  if(!el){
-    console.error("ไม่พบ element:", id);
-    return;
-  }
-
-  el.innerHTML =
-    "<option value=''>-- กรุณาเลือก --</option>";
-
-  (list || []).forEach(item=>{
-
-    const option =
-      document.createElement("option");
-
-    option.value = item;
-    option.textContent = item;
-
-    el.appendChild(option);
-
-  });
-
-}
-
-
-
-
-
-// =======================
-// ANALYZE
-// =======================
-
-
-async function analyze(){
-
-
-
-let params = new URLSearchParams({
-
-
-action:"preview",
-
-
-age:
-
-document.getElementById("age").value,
-
-
-budget:
-
-document.getElementById("budget").value,
-
-
-authority:
-
-document.getElementById("authority").value,
-
-
-need:
-
-document.getElementById("need").value,
-
-
-horizon:
-
-document.getElementById("horizon").value,
-
-
-attitude:
-
-document.getElementById("attitude").value,
-
-
-risk:
-
-document.getElementById("risk").value,
-
-
-plan_action:
-
-document.getElementById("action").value
-
-
-
-});
-
-
-
-
-
-const response = await fetch(
-
-API_URL+"?"+params.toString()
-
-);
-
-
-
-const data = await response.json();
-
-
-
-showResult(data);
-
-
-
-}
-
-
-
-
-
-
-
-// =======================
-// SHOW RESULT
-// =======================
-
-
-function showResult(data){
-
-
-let html="";
-
-
-
-html += `
-
-<div class="card">
-
-
-<h2>
-
-${data.stars || ""}
-
-${data.recommended_product}
-
-</h2>
-
-
-<h3>
-
-${data.suitability}
-
-</h3>
-
-
-<h3>
-
-คะแนน ${data.score}
-
-</h3>
-
-
-</div>
-
-`;
-
-
-
-
-html += `
-
-<div class="card">
-
-<h3>
-🏷 Customer Tag
-</h3>
-
-`;
-
-
-
-(data.customer_tags || [])
-
-.forEach(tag=>{
-
-
-html +=
-
-`
-
-<span class="tag">
-${tag}
-</span>
-
-`;
-
-
-
-});
-
-
-
-html += "</div>";
-
-
-
-
-
-html += `
-
-<div class="card">
-
-<h3>
-เหตุผลที่แนะนำ
-</h3>
-
-<ul>
-
-`;
-
-
-
-(data.reason || [])
-
-.forEach(r=>{
-
-
-html +=
-
-`
-
-<li>${r}</li>
-
-`;
-
-
-
-});
-
-
-
-html +=`
-
-</ul>
-
-</div>
-
-`;
-
-
-
-
-
-
-html +=`
-
-<div class="card">
-
-<h3>
-รายละเอียดผลิตภัณฑ์
-</h3>
-
-<ul>
-
-`;
-
-
-
-(data.product_summary || [])
-
-.forEach(x=>{
-
-
-html +=
-
-`
-
-<li>${x}</li>
-
-`;
-
-
-
-});
-
-
-
-html +=`
-
-</ul>
-
-</div>
-
-`;
-
-
-
-
-
-html +=`
-
-<div class="card">
-
-<h3>
-Ranking
-</h3>
-
-`;
-
-
-
-(data.ranked_products || [])
-
-.forEach(p=>{
-
-
-html +=
-
-`
-
-<div class="rank">
-
-${p.stars}
-
-<b>${p.product_name}</b>
-
-<br>
-
-คะแนน ${p.score}
-
-</div>
-
-`;
-
-
-
-});
-
-
-
-html +=`
-
-</div>
-
-`;
-
-
-
-
-
-document.getElementById("result").innerHTML=html;
-
-
-
-}
-
-
-
-
-
-
-loadData();
-
-
+    }
+  );
 
 </script>
 
-
 </body>
-
 </html>
